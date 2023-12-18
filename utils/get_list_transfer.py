@@ -3,9 +3,23 @@ import os
 import json
 
 
-def get_last_transfer():
-    with open(os.path.join('..', 'data', 'operations.json'), 'r', encoding='UTF-8') as list_data:
-        return json.loads(list_data.read().strip())
+class Transfer:
+    def __init__(self):
+        self.list_transfer = []
+
+    def __repr__(self):
+        return (f"Return file with informstion\n"
+                f"about user:\n"
+                f"{self.list_transfer}")
+
+    def get_last_transfer(self):
+        with open(os.path.join('..', 'data', 'operations.json'), 'r', encoding='UTF-8') as list_data:
+            self.list_transfer = json.loads(list_data.read().strip())
+        return self.list_transfer
+
+    def get_five_last_transfer(self):
+        pass
 
 
-print(get_last_transfer())
+x = Transfer()
+print(x)
