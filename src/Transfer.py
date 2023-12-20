@@ -24,6 +24,10 @@ class Transfer:
         return self.list_transfer
 
     def get_true_sort_transfers(self):
+        """
+        Sort transfer's list
+        :return: sorted list
+        """
         new_list = []
         for date_ in self.list_transfer:
             str_date = date_.get('date')
@@ -37,31 +41,42 @@ class Transfer:
         self.list_transfer = sorted(new_list, key=lambda x: x['date'], reverse=True)
         return self.list_transfer
 
-    def code_check_from(self):
+    def code_check(self):
+        """
+        Code information about from transfer
+        :return: coded info about from
+        """
         for i in range(len(self.list_transfer) - 1):
             if self.list_transfer[i].get('from'):
-                str_info = self.list_transfer[i].get('from')
-                list_info = str_info.split()
-                card_info = [info for info in list_info if info.isdigit()]
-                card = [info for info in list_info if info.isalpha()]
-                card_info = ''.join(card_info)
-                card = ' '.join(card)
-                code_formatted = f'{card} {card_info[:4]} {card_info[4:6]}** ****{card_info[12:]}'
+                # Get str about date
+                str_info_from, str_info_to = self.list_transfer[i].get('from'), self.list_transfer[i].get('to')
+                list_info_from, list_info_to = str_info_from.split(), str_info_to.split()
+
+                # Get number and name card from
+                card_info_from = [info for info in list_info_from if info.isdigit()]
+                card_from = [info for info in list_info_from if info.isalpha()]
+
+                # Get number and name card to
+                card_info_to = [info for info in list_info_to if info.isdigit()]
+                card_to = [info for info in list_info_to if info.isalpha()]
+
+                # Join and code str info from
+                card_info_from, card_from = ''.join(card_info_from), ' '.join(card_from)
+                code_formatted = f'{card_from} {card_info_from[:4]} {card_info_from[4:6]}** ****{card_info_from[12:]}'
                 self.list_transfer[i]['from'] = code_formatted
 
-        return self.list_transfer
-
-    def code_check_to(self):
-        for i in range(len(self.list_transfer) - 1):
-            if self.list_transfer[i].get('to'):
-                str_info = self.list_transfer[i].get('to')
-                list_info = str_info.split()
-                number = list_info[1]
-                code_formatted = f'Счет **{number[16:]}'
+                # Join and code str info to
+                card_info_to, card_to = ' '.join(card_to), ''.join(card_info_to)
+                code_formatted = f'{card_info_to} **{card_to[len(card_to) - 4:]}'
                 self.list_transfer[i]['to'] = code_formatted
+
         return self.list_transfer
 
     def get_last_info(self):
+        """
+        Get info about last transfers
+        :return: info
+        """
         list_info = []
 
         for i in range(len(self.list_transfer) - 1):
@@ -79,12 +94,3 @@ class Transfer:
 
         self.last_info = '\n'.join(list_info)
         return self.last_info
-
-x = Transfer()
-x.get_list_transfer()
-x.get_true_sort_transfers()
-x.code_check_from()
-x.code_check_to()
-
-print(x.list_transfer)
-print(x.get_last_info())
