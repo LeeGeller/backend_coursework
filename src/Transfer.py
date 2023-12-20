@@ -7,6 +7,7 @@ class Transfer:
     def __init__(self):
         self.list_transfer = []
         self.last_info = []
+        self.count_transfers = 5
 
     def __repr__(self):
         return (f"Return file with informstion\n"
@@ -72,6 +73,20 @@ class Transfer:
 
         return self.list_transfer
 
+    def get_count_transfers(self):
+        """
+        Count transfers
+        :return: count transfers
+        """
+        reckon = input("Input 'yes' if you want to text count of transfers: ").strip().lower()
+        if reckon == 'yes':
+            while True:
+                count_transfers = input("How many transfers do you want to see?\n")
+                if count_transfers.isdigit():
+                    self.count_transfers = count_transfers
+                    return self.count_transfers
+                print(f"You need input number. Not words.")
+
     def get_last_info(self):
         """
         Get info about last transfers
@@ -89,7 +104,7 @@ class Transfer:
                              f"{self.list_transfer[i]['from']} -> {self.list_transfer[i]['to']}\n"
                              f"{self.list_transfer[i]['operationAmount']['amount']} {self.list_transfer[i]['operationAmount']['currency']['name']}\n")
                 list_info.append(last_info)
-                if len(list_info) > 4:
+                if len(list_info) > int(self.count_transfers) - 1:
                     break
 
         self.last_info = '\n'.join(list_info)
