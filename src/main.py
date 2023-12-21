@@ -1,3 +1,6 @@
+import time
+from timeit import timeit
+
 from src.Transfer import Transfer
 
 

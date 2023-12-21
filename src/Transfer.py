@@ -1,3 +1,4 @@
+import time
 from datetime import datetime as date
 import os
 import json
@@ -32,7 +33,7 @@ class Transfer:
         new_list = []
         for date_ in self.list_transfer:
             str_date = date_.get('date')
-            if str_date is not None:
+            if str_date is not None and date_.get('state') == 'EXECUTED':
                 cl_date = date.strptime(str_date, '%Y-%m-%dT%H:%M:%S.%f')
                 date_short = cl_date.strftime("%d.%m.%Y")
                 date_class = date.strptime(date_short, "%d.%m.%Y")

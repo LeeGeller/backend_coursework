@@ -1,6 +1,6 @@
 import unittest
-from utils.Transfer import Transfer
-from utils.get_sorted_transfers import get_sorted_transfers
+from src.Transfer import Transfer
+
 
 
 class TestTransferInfo(unittest.TestCase):
@@ -8,8 +8,12 @@ class TestTransferInfo(unittest.TestCase):
         self.assertNotEqual(Transfer().get_list_transfer(), 0)
         self.assertNotEqual(Transfer().get_list_transfer(), None)
 
-    def test_get_last_five_transfers(self):
-        self.assertNotEqual(get_sorted_transfers(Transfer().get_list_transfer()), Transfer().get_list_transfer())
+    def test_get_true_sort_transfers(self):
+        transfers_1 = Transfer()
+        transfers_1.get_list_transfer()
+        transfers_1.get_true_sort_transfers()
 
-    # def test_get_last_five_transfers_count(self):
-    #     self.assertEqual(len(Transfer().last_info), 5)
+        transfers_2 = Transfer()
+        transfers_2.get_list_transfer()
+
+        self.assertNotEqual(transfers_1.list_transfer, transfers_2.list_transfer)
