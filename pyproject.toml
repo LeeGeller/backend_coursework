@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 calc = "^1.0"
+coverage = "^7.3.4"
 
 
 [build-system]
