@@ -15,11 +15,12 @@ class Transfer:
                 f"Return last transfers:\n"
                 f"{self.last_info}")
 
-    def get_list_transfer(self, operations_path):
+    def get_list_transfer(self):
         """
         :return: get operations.json
         """
-        with open(pathlib.Path(operations_path), 'r', encoding='UTF-8') as list_data:
+        DATA = pathlib.Path('..', 'data', 'operations.json')
+        with open(DATA, 'r', encoding='UTF-8') as list_data:
             self.list_transfer = json.loads(list_data.read().strip())
         return self.list_transfer
 
