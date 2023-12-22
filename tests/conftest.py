@@ -1,15 +1,10 @@
 import datetime
+import json
+import pathlib
 
 import pytest
 
 from utils.Transfer import Transfer
-
-
-@pytest.fixture
-def get_fixture_list():
-    transfers = Transfer()
-    transfers.get_list_transfer()
-    return transfers.list_transfer
 
 
 @pytest.fixture
@@ -19,114 +14,64 @@ def get_fixture_transfers_class():
 
 
 @pytest.fixture
-def fixture_test_list():
-    return [
-        {
-            "id": 441945886,
-            "state": "EXECUTED",
-            "date": "2019-08-26T10:50:58.294041",
-            "operationAmount": {
-                "amount": "31957.58",
-                "currency": {
-                    "name": "руб.",
-                    "code": "RUB"
-                }
-            },
-            "description": "Перевод организации",
-            "from": "Maestro 1596837868705199",
-            "to": "Счет 64686473678894779589"
-        },
-        {
-            "id": 41428829,
-            "state": "EXECUTED",
-            "date": "2019-07-03T18:35:29.512364",
-            "operationAmount": {
-                "amount": "8221.37",
-                "currency": {
-                    "name": "USD",
-                    "code": "USD"
-                }
-            },
-            "description": "Перевод организации",
-            "from": "MasterCard 7158300734726758",
-            "to": "Счет 35383033474447895560"
-        },
-        {
-            "id": 939719570,
-            "state": "EXECUTED",
-            "date": "2018-06-30T02:08:58.425572",
-            "operationAmount": {
-                "amount": "9824.07",
-                "currency": {
-                    "name": "USD",
-                    "code": "USD"
-                }
-            },
-            "description": "Перевод организации",
-            "from": "Счет 75106830613657916952",
-            "to": "Счет 11776614605963066702"
-        },
-        {
-            "id": 587085106,
-            "state": "EXECUTED",
-            "date": "2018-03-23T10:45:06.972075",
-            "operationAmount": {
-                "amount": "48223.05",
-                "currency": {
-                    "name": "руб.",
-                    "code": "RUB"
-                }
-            },
-            "description": "Открытие вклада",
-            "to": "Счет 41421565395219882431"
-        }]
+def test_data_file():
+    with open(pathlib.Path('test_data.json')) as file:
+        return json.loads(file.read())
 
 
 @pytest.fixture
-def sorted_list():
-    return [{'id': 441945886, 'state': 'EXECUTED', 'date': datetime.datetime(2019, 8, 26, 0, 0),
-             'operationAmount': {'amount': '31957.58', 'currency': {'name': 'руб.', 'code': 'RUB'}},
-             'description': 'Перевод организации', 'from': 'Maestro 1596837868705199',
-             'to': 'Счет 64686473678894779589'},
-            {'id': 41428829, 'state': 'EXECUTED', 'date': datetime.datetime(2019, 7, 3, 0, 0),
-             'operationAmount': {'amount': '8221.37', 'currency': {'name': 'USD', 'code': 'USD'}},
-             'description': 'Перевод организации', 'from': 'MasterCard 7158300734726758',
-             'to': 'Счет 35383033474447895560'},
-            {'id': 939719570, 'state': 'EXECUTED', 'date': datetime.datetime(2018, 6, 30, 0, 0),
-             'operationAmount': {'amount': '9824.07', 'currency': {'name': 'USD', 'code': 'USD'}},
-             'description': 'Перевод организации', 'from': 'Счет 75106830613657916952',
-             'to': 'Счет 11776614605963066702'},
-            {'id': 587085106, 'state': 'EXECUTED', 'date': datetime.datetime(2018, 3, 23, 0, 0),
-             'operationAmount': {'amount': '48223.05', 'currency': {'name': 'руб.', 'code': 'RUB'}},
-             'description': 'Открытие вклада', 'to': 'Счет 41421565395219882431'}]
+def test_data_sort(test_data_file):
+    new_list = []
+    for value in test_data_file:
+        if value.get('state') == 'EXECUTED' and value.get('from'):
+            new_list.append(value)
+        else:
+            continue
+
+    new_list = sorted(new_list, key=lambda x: x.get('date'), reverse=True)
+    test_data_file = new_list[:5]
+
+    return test_data_file
 
 
 @pytest.fixture
-def get_fixture_code_info():
-    return [{'id': 441945886, 'state': 'EXECUTED', 'date': '2019-08-26T10:50:58.294041',
-             'operationAmount': {'amount': '31957.58', 'currency': {'name': 'руб.', 'code': 'RUB'}},
-             'description': 'Перевод организации', 'from': 'Maestro 1596 83** ****5199', 'to': 'Счет **9589'},
-            {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364',
-             'operationAmount': {'amount': '8221.37', 'currency': {'name': 'USD', 'code': 'USD'}},
-             'description': 'Перевод организации', 'from': 'MasterCard 7158 30** ****6758', 'to': 'Счет **5560'},
-            {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572',
-             'operationAmount': {'amount': '9824.07', 'currency': {'name': 'USD', 'code': 'USD'}},
-             'description': 'Перевод организации', 'from': 'Счет 7510 68** ****57916952', 'to': 'Счет **6702'},
-            {'id': 587085106, 'state': 'EXECUTED', 'date': '2018-03-23T10:45:06.972075',
-             'operationAmount': {'amount': '48223.05', 'currency': {'name': 'руб.', 'code': 'RUB'}},
-             'description': 'Открытие вклада', 'to': 'Счет 41421565395219882431'}]
+def test_sort_list():
+    return [{'id': 114832369, 'state': 'EXECUTED', 'date': '2019-12-07T06:17:14.634890',
+             'operationAmount': {'amount': '48150.39', 'currency': {'name': 'USD', 'code': 'USD'}},
+             'description': 'Перевод организации', 'from': 'Visa Classic 2842878893689012',
+             'to': 'Счет 35158586384610753655'},
+            {'id': 154927927, 'state': 'EXECUTED', 'date': '2019-11-19T09:22:25.899614',
+             'operationAmount': {'amount': '30153.72', 'currency': {'name': 'руб.', 'code': 'RUB'}},
+             'description': 'Перевод организации', 'from': 'Maestro 7810846596785568',
+             'to': 'Счет 43241152692663622869'},
+            {'id': 482520625, 'state': 'EXECUTED', 'date': '2019-11-13T17:38:04.800051',
+             'operationAmount': {'amount': '62814.53', 'currency': {'name': 'руб.', 'code': 'RUB'}},
+             'description': 'Перевод со счета на счет', 'from': 'Счет 38611439522855669794',
+             'to': 'Счет 46765464282437878125'},
+            {'id': 509645757, 'state': 'EXECUTED', 'date': '2019-10-30T01:49:52.939296',
+             'operationAmount': {'amount': '23036.03', 'currency': {'name': 'руб.', 'code': 'RUB'}},
+             'description': 'Перевод с карты на счет', 'from': 'Visa Gold 7756673469642839',
+             'to': 'Счет 48943806953649539453'},
+            {'id': 888407131, 'state': 'EXECUTED', 'date': '2019-09-29T14:25:28.588059',
+             'operationAmount': {'amount': '45849.53', 'currency': {'name': 'USD', 'code': 'USD'}},
+             'description': 'Перевод со счета на счет', 'from': 'Счет 35421428450077339637',
+             'to': 'Счет 46723050671868944961'}]
 
 
 @pytest.fixture
-def get_fixture_list_info():
-    return ('26.08.2019 Перевод организации\n'
-            'Maestro 1596 83** ****5199 -> Счет **9589\n'
-            '31957.58 руб.\n'
-            '\n'
-            '03.07.2019 Перевод организации\n'
-            'MasterCard 7158 30** ****6758 -> Счет **5560\n'
-            '8221.37 USD\n'
-            '\n'
-            '30.06.2018 Перевод организации\n'
-            'Счет 7510 68** ****57916952 -> Счет **6702\n'
-            '9824.07 USD\n')
+def test_info_code():
+    return [{'id': 114832369, 'state': 'EXECUTED', 'date': '2019-12-07T06:17:14.634890',
+             'operationAmount': {'amount': '48150.39', 'currency': {'name': 'USD', 'code': 'USD'}},
+             'description': 'Перевод организации', 'from': 'Visa Classic 2842 87** ****9012', 'to': 'Счет **3655'},
+            {'id': 154927927, 'state': 'EXECUTED', 'date': '2019-11-19T09:22:25.899614',
+             'operationAmount': {'amount': '30153.72', 'currency': {'name': 'руб.', 'code': 'RUB'}},
+             'description': 'Перевод организации', 'from': 'Maestro 7810 84** ****5568', 'to': 'Счет **2869'},
+            {'id': 482520625, 'state': 'EXECUTED', 'date': '2019-11-13T17:38:04.800051',
+             'operationAmount': {'amount': '62814.53', 'currency': {'name': 'руб.', 'code': 'RUB'}},
+             'description': 'Перевод со счета на счет', 'from': 'Счет 3861 14** ****55669794', 'to': 'Счет **8125'},
+            {'id': 509645757, 'state': 'EXECUTED', 'date': '2019-10-30T01:49:52.939296',
+             'operationAmount': {'amount': '23036.03', 'currency': {'name': 'руб.', 'code': 'RUB'}},
+             'description': 'Перевод с карты на счет', 'from': 'Visa Gold 7756 67** ****2839', 'to': 'Счет **9453'},
+            {'id': 888407131, 'state': 'EXECUTED', 'date': '2019-09-29T14:25:28.588059',
+             'operationAmount': {'amount': '45849.53', 'currency': {'name': 'USD', 'code': 'USD'}},
+             'description': 'Перевод со счета на счет', 'from': 'Счет 3542 14** ****77339637', 'to': 'Счет **4961'}]
