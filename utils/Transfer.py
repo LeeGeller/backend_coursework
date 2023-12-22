@@ -15,15 +15,6 @@ class Transfer:
                 f"Return last transfers:\n"
                 f"{self.last_info}")
 
-    def get_list_transfer(self):
-        """
-        :return: get operations.json
-        """
-        DATA = pathlib.Path('..', 'data', 'operations.json')
-        with open(DATA, 'r', encoding='UTF-8') as list_data:
-            self.list_transfer = json.loads(list_data.read().strip())
-        return self.list_transfer
-
     def get_true_sort_transfers(self, list_):
         """
         clean and sort list without artefacts and with tru info
