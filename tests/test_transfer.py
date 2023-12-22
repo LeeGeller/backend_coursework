@@ -20,4 +20,7 @@ def test_code_check(test_info_code, test_sort_list):
     assert len(Transfer().code_check(test_sort_list)) == len(test_info_code)
     assert type(Transfer().code_check(test_sort_list)) == type(test_info_code)
 
-def test_get_last_info
+
+def test_get_last_info(test_sort_list, test_last_info_data):
+    assert Transfer().get_last_info(test_sort_list) == test_last_info_data
+    assert len(Transfer().get_last_info(test_sort_list)) == len(test_last_info_data)
