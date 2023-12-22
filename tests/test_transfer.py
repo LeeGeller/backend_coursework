@@ -1,18 +1,17 @@
 import pathlib
 
 from utils.Transfer import Transfer
+from utils.get_list_transfer import get_list_transfer
 
 
 def test_get_list_transfer(test_data_file):
-    assert Transfer().get_list_transfer() is not None
-    assert Transfer().get_list_transfer() == test_data_file
-    assert len(Transfer().get_list_transfer()) == len(test_data_file)
-    assert type(Transfer().get_list_transfer()) == type(test_data_file)
+    assert get_list_transfer('test_data.json') is not None
+    assert get_list_transfer('test_data.json') == test_data_file
 
 
 def test_get_true_sort_transfers(test_data_file, test_sort_list):
     assert Transfer().get_true_sort_transfers(test_data_file) == test_sort_list
-    assert len(Transfer().get_true_sort_transfers(test_data_file)) == 5
+    assert Transfer().get_true_sort_transfers(test_data_file) != test_data_file
 
 
 def test_code_check(test_info_code, test_sort_list):
