@@ -4,9 +4,8 @@ from utils.Transfer import Transfer
 
 
 class main:
-    DATA = pathlib.Path('..', 'data', 'operations.json')
     transfers = Transfer()
-    get_list_transfers = transfers.get_list_transfer(DATA)
+    transfers.get_list_transfer()
     transfers.get_true_sort_transfers(transfers.list_transfer)
     transfers.code_check(transfers.list_transfer)
 
