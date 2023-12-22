@@ -1,15 +1,14 @@
-import pathlib
-
+import os
 from utils.Transfer import Transfer
-from utils.get_list_transfer import get_list_transfer
 
 
 class main:
-    DATA = pathlib.Path('..', 'data', 'operations.json')
+    DATA = 'data/operations.json'
     transfers = Transfer()
-    list_transfers = get_list_transfer(DATA)
-    transfers.get_true_sort_transfers(list_transfers)
+    transfers.get_list_transfer(DATA)
+    transfers.get_true_sort_transfers(transfers.list_transfer)
     transfers.code_check(transfers.list_transfer)
+    print(os.path.abspath('operations.json'))
 
     print(transfers.get_last_info(transfers.list_transfer))
 

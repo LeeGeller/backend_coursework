@@ -1,4 +1,4 @@
-import pathlib
+import os.path
 from datetime import datetime as date
 import json
 
@@ -15,6 +15,18 @@ class Transfer:
                 f"Return last transfers:\n"
                 f"{self.last_info}")
 
+    def get_list_transfer(self, data_path):
+        """
+        :return: get operations.json
+        """
+        exit_ = '..'
+        try:
+            with open(os.path.join(exit_, data_path), 'r', encoding='UTF-8') as list_data:
+                self.list_transfer = json.loads(list_data.read().strip())
+                return self.list_transfer
+        except:
+            return "No such directory"
+
     def get_true_sort_transfers(self, list_):
         """
         clean and sort list without artefacts and with tru info
@@ -25,11 +37,9 @@ class Transfer:
         for value in list_:
             if value.get('state') == 'EXECUTED' and value.get('from'):
                 new_list.append(value)
-            else:
-                continue
+            continue
 
-        new_list = sorted(new_list, key=lambda x: x.get('date'), reverse=True)
-        self.list_transfer = new_list[:5]
+        self.list_transfer = sorted(new_list, key=lambda x: x.get('date'), reverse=True)[:5]
 
         return self.list_transfer
 
