@@ -19,9 +19,8 @@ class Transfer:
         """
         :return: get operations.json
         """
-        exit_ = '..'
         try:
-            with open(os.path.join(exit_, data_path), 'r', encoding='UTF-8') as list_data:
+            with open(os.path.join(data_path), 'r', encoding='UTF-8') as list_data:
                 self.list_transfer = json.loads(list_data.read().strip())
                 return self.list_transfer
         except:
