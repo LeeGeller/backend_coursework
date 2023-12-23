@@ -1,10 +1,13 @@
-from utils.Transfer import Transfer
+import os.path
+
+from config import DIR_ROOT
+from src.Transfer import Transfer
 
 
 def test_get_list_transfer(fixture_data):
-    test_path = 'tests/test_data.json'
-    real_path = 'data/operations.json'
-    zero_path = ''
+    test_path = os.path.join(DIR_ROOT, 'tests', 'test_data.json')
+    real_path = os.path.join(DIR_ROOT, 'data', 'operations.json')
+    zero_path = os.path.join(DIR_ROOT, '')
 
     assert Transfer().get_list_transfer(test_path) == fixture_data
     assert Transfer().get_list_transfer(real_path) == fixture_data
