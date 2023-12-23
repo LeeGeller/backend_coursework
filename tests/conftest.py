@@ -1,6 +1,5 @@
-import json
 import pytest
-from utils.Transfer import Transfer
+from src.Transfer import Transfer
 
 
 @pytest.fixture
